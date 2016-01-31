@@ -51,17 +51,53 @@ var zoo = {
     console.log("Enter (Q): ------> Quits to the main menu");
     // currentScope.visit();
     // currentScope.view(currentScope);
-
   },
+  view: function(input_scope){
+    this.currentScope = input_scope;
+    console.log("Please choice what you like to visit");
+     prompt.get(['visit'], function (err, result) { 
+      if (result.visit == "Q"){
+        currentScope.menu()
+        console.log(result.visit) 
+      }
+
+      else if (result.visit == "O"){
+        currentScope.type(input_scope)
+      }
+
+      else if (result.visit == "I"){
+        currentScope.type(input_scope)
+      }
+      else if (result.visit == "N"){
+        currentScope.name(input_scope)
+        
+      }
+      else if (result.visit == "A"){
+        currentScope.all(input_scope)
+        
+      }
+      else if (result.visit == "C"){
+      call the currentScope.care(input_scope) 
+      }
+      else{
+        console.log("sorry, didn't understand that.  COME ON BRUH!")
+      }
+    })   
+  },
+
   animId: function(input_scope){
-    this.currentScope = input_scope
+    this.currentScope = input_scope;
     console.log ("Enter In ID of the Animal you'd like to visit")
     prompt.get(['name', 'type', 'age', ], function (err, result) { 
+      if (err) throw err;
+
+
+
 
     })   
 
   },
 }
 
-zoo.visit()
+zoo.view()
 
