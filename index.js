@@ -77,14 +77,31 @@ var zoo = {
         
       }
       else if (result.visit == "C"){
-      call the currentScope.care(input_scope) 
+      currentScope.care(input_scope) 
       }
       else{
         console.log("sorry, didn't understand that.  COME ON BRUH!")
       }
     })   
   },
+  type: function(input_scope){
+  this.currentScope = input_scope;
+  console.log ("Enter animal type to find how many animals we have of those type.")
+   prompt.get(['animal_type'], function (err, result) { 
+    console.log(result.animal_type);
+         if (err) {console.log(err)};
 
+
+          connection.query('select * from animals  where type=?', [result.animal_type], function(err, results){
+        if (err) {console.log(err)};
+        console.log("there are this many of that type of animal:" + results.length)
+        // currentScope.visit()
+        // currentScope.view(currentScope)
+      })
+
+    })  
+
+  },
   animId: function(input_scope){
     this.currentScope = input_scope;
     console.log ("Enter In ID of the Animal you'd like to visit")
@@ -99,5 +116,5 @@ var zoo = {
   },
 }
 
-zoo.view()
+zoo.type()
 
