@@ -15,8 +15,9 @@ var connection = mysql.createConnection({
     });
   var prompt = require('prompt');
 
-prompt.start()
 
+prompt.start();
+prompt.message="";
 var zoo = {
   welcome:console.log("Welcome to the Zoo And Friends App~!"),
   menu:console.log("Enter (A): ------> to Add a new animal to the Zoo!"),
@@ -27,8 +28,18 @@ var zoo = {
   add: function(input_scope){
     this.current_scope = input_scope;
     console.log("To add an animal to the zoo please fill out the following form for us!");
-    prompt.get(['name', 'type', 'age'], function (err, result) {
-     });
+    prompt.get(['name', 'type', 'age', ], function (err, result) {      
+       if (err) throw err;
+var trainer = Math.floor(Math.random() * 10);
+      connection.query('INSERT INTO animals (name, type, age, caretaker_id) VALUES (?,?,?,?)', [result.name, result.type, result.age, trainer], function(err, results){
+        if (err) {console.log(err)};
+   
+          console.log("Sucess written!")
+      })
+
+    })
   },
 }
+
 zoo.add()
+
