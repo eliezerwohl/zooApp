@@ -180,8 +180,29 @@ var zoo = {
         });
       });
   },
+  promptUser: function(input_scope){
+    prompt.get(['input'], function (err, result) {
+        if (err) throw err;
+        else if (result.input == "q"){
+          zoo.exit();
+        }
+          else if (result.input == "a"){
+          zoo.add();
+        }
+          else if (result.input == "v"){
+          zoo.view();
+        }
+          else if (result.input == "d"){
+          zoo.adopt();
+        }
+        else{
+          console.log("I'm sorry Dave, I'm afraid I can't do that. Please enter another selection");
+        }
+    });
+  },
   
+
 }
 
-zoo.adopt()
+zoo.promptUser()
 
