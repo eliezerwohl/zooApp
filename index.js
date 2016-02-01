@@ -142,7 +142,19 @@ var zoo = {
       })
     }) 
   },
+   all: function(input_scope){
+    this.currentScope = input_scope;
+    console.log ("Wanna see how many animals there are total?")
+    prompt.get(['yes'], function (err, result) { 
+      if (err) throw err;
+      connection.query('SELECT * FROM animals', function(err, results){
+        if (err) {console.log(err)};
+        console.log("there are this many animals in the zoo: " +results.length)   
+      })
+    })
+  },
+
 }
 
-zoo.animId()
+zoo.all()
 
