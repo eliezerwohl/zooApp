@@ -168,8 +168,20 @@ var zoo = {
       })
     })
   },
-
+  adopt: function(input_scope){
+      this.currentScope = input_scope;
+      prompt.get(['animal_id'], function (err, result) {
+        if (err) throw err;
+        connection.query('delete from animals where id = ?', [result.animal_id], function(err, results){
+        if (err) {console.log("this is error" + err)};
+        console.log("You have adopted this animal!  there is no record of this transaction  No backsies!")
+            // call currentScope.visit()
+        // call currentScope.view(currentScope)
+        });
+      });
+  },
+  
 }
 
-zoo.update()
+zoo.adopt()
 
