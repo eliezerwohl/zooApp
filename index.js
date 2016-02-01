@@ -6,18 +6,17 @@ var connection = mysql.createConnection({
     database: 'zoo_db'
 });
 
-  connection.connect(function(err) {
-        if (err) {
-            console.error('error connecting: ' + err.stack);
-            return;
-        };
+connection.connect(function(err) {
+  if (err) {
+      console.error('error connecting: ' + err.stack);
+      return;
+  };
         // console.log('connected as id ' + connection.threadId);
-    });
-  var prompt = require('prompt');
-
-
+});
+var prompt = require('prompt');
 prompt.start();
 prompt.message="";
+// I have no idea why var.message is required.  it was in the homework.
 var zoo = {
   welcome: function(){
   console.log("Welcome to the Zoo And Friends App~!")
@@ -29,17 +28,15 @@ var zoo = {
   console.log("Enter (D): ------> to Adopt an animal from the Zoo!");
   console.log("Enter (Q): ------> to Quit and exit the Zoo!!");
   },
-
   add: function(input_scope){
     this.current_scope = input_scope;
     console.log("To add an animal to the zoo please fill out the following form for us!");
     prompt.get(['name', 'type', 'age', ], function (err, result) {      
-       if (err) throw err;
-       var trainer = Math.floor(Math.random() * 10);
-      // need this or else it won't write, use random number generators 
+      if (err) throw err;
+      var trainer = Math.floor(Math.random() * 10);
+    // need this or else it won't write, use random number generators 
       connection.query('INSERT INTO animals (name, type, age, caretaker_id) VALUES (?,?,?,?)', [result.name, result.type, result.age, trainer], function(err, results){
         if (err) {console.log(err)};
-   
         console.log("Sucess written!")
         zoo.menu();
         zoo.promptUser()
@@ -62,21 +59,17 @@ var zoo = {
         currentScope.menu()
         console.log(result.visit) 
       }
-
       else if (result.visit == "O"){
         zoo.type();
       }
-
       else if (result.visit == "I"){
         zoo. animId();
       }
       else if (result.visit == "N"){
         zoo.name()
-        
       }
       else if (result.visit == "A"){
-        zoo.all()
-        
+        zoo.all()        
       }
       else if (result.visit == "C"){
         zoo.care()
@@ -87,22 +80,18 @@ var zoo = {
     })   
   },
   type: function(input_scope){
-  this.currentScope = input_scope;
-  console.log ("Enter animal type to find how many animals we have of those type.")
-   prompt.get(['animal_type'], function (err, result) { 
-    console.log(result.animal_type);
-         if (err) {console.log(err)};
-
-
-          connection.query('select * from animals  where type=?', [result.animal_type], function(err, results){
+    this.currentScope = input_scope;
+    console.log ("Enter animal type to find how many animals we have of those type.")
+    prompt.get(['animal_type'], function (err, result) { 
+      console.log(result.animal_type);
+      if (err) {console.log(err)};
+      connection.query('select * from animals  where type=?', [result.animal_type], function(err, results){
         if (err) {console.log(err)};
         console.log("there are this many of that type of animal:" + results.length)
         zoo.menu();
         zoo.promptUser();
       })
-
     })  
-
   },
   care: function(input_scope){
     this.currentScope = input_scope;
@@ -115,7 +104,6 @@ var zoo = {
         console.log("this many animals in " + result.city_name +": " + results.length)
         zoo.menu();
         zoo.promptUser();
-
       })
     })   
   },
@@ -129,7 +117,6 @@ var zoo = {
         console.log(results)
         zoo.menu();
         zoo.promptUser();
-
       })
     })   
   },
@@ -179,29 +166,29 @@ var zoo = {
         console.log("You have adopted this animal!  there is no record of this transaction  No backsies!")
         zoo.menu();
         zoo.promptUser();
-        });
       });
+    });
   },
   promptUser: function(input_scope){
     prompt.get(['input'], function (err, result) {
-        if (err) throw err;
-        else if (result.input == "Q"){
-          zoo.exit();
-        }
-          else if (result.input == "A"){
-          zoo.add();
-        }
-          else if (result.input == "V"){
-          zoo.visit();
-          zoo.view();
-        }
-          else if (result.input == "D"){
-          zoo.adopt();
-        }
-        else{
-          console.log("I'm sorry Dave, I'm afraid I can't do that. Please enter another selection");
-          zoo.promptUser();
-        }
+      if (err) throw err;
+      else if (result.input == "Q"){
+        zoo.exit();
+      }
+        else if (result.input == "A"){
+        zoo.add();
+      }
+        else if (result.input == "V"){
+        zoo.visit();
+        zoo.view();
+      }
+        else if (result.input == "D"){
+        zoo.adopt();
+      }
+      else{
+        console.log("I'm sorry Dave, I'm afraid I can't do that. Please enter another selection");
+        zoo.promptUser();
+      }
     });
   },
   exit: function(){
@@ -213,8 +200,6 @@ var zoo = {
     zoo.menu();
     zoo.promptUser();
   }
-
 }
-
 zoo.open()
 
