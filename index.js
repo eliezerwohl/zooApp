@@ -19,12 +19,16 @@ var connection = mysql.createConnection({
 prompt.start();
 prompt.message="";
 var zoo = {
-  welcome: console.log("Welcome to the Zoo And Friends App~!"),
-  menu:console.log("Enter (A): ------> to Add a new animal to the Zoo!"),
-  menu:console.log("Enter (U): ------> to Update info on an animal in the Zoo!"),
-  menu:console.log("Enter (V): ------> to Visit the animals in the Zoo!"),
-  menu:console.log("Enter (D): ------> to Adopt an animal from the Zoo!"),
-  menu:console.log("Enter (Q): ------> to Quit and exit the Zoo!!"),
+  welcome: function(){
+  console.log("Welcome to the Zoo And Friends App~!")
+  }, 
+  menu: function(){
+  console.log("Enter (A): ------> to Add a new animal to the Zoo!");
+  console.log("Enter (U): ------> to Update info on an animal in the Zoo!");
+  console.log("Enter (V): ------> to Visit the animals in the Zoo!");
+  console.log("Enter (D): ------> to Adopt an animal from the Zoo!");
+  console.log("Enter (Q): ------> to Quit and exit the Zoo!!");
+  },
 
   add: function(input_scope){
     this.current_scope = input_scope;
@@ -37,8 +41,8 @@ var zoo = {
         if (err) {console.log(err)};
    
         console.log("Sucess written!")
-        zoo.visit()
-        zoo.view()
+        zoo.menu();
+        zoo.promptUser()
       })
     })
   },
@@ -49,8 +53,6 @@ var zoo = {
     console.log("Enter (C): ------> here's the count for all animals in this one city!");
     console.log("Enter (O): ------> here's the count for all the animals in all locations by the type you specified!");
     console.log("Enter (Q): ------> Quits to the main menu");
-    // currentScope.visit();
-    // currentScope.view(currentScope);
   },
   view: function(input_scope){
     this.currentScope = input_scope;
@@ -62,22 +64,22 @@ var zoo = {
       }
 
       else if (result.visit == "O"){
-        currentScope.type(input_scope)
+        zoo.type();
       }
 
       else if (result.visit == "I"){
-        currentScope.type(input_scope)
+        zoo. animId();
       }
       else if (result.visit == "N"){
-        currentScope.name(input_scope)
+        zoo.name()
         
       }
       else if (result.visit == "A"){
-        currentScope.all(input_scope)
+        zoo.all()
         
       }
       else if (result.visit == "C"){
-      currentScope.care(input_scope) 
+        zoo.care()
       }
       else{
         console.log("sorry, didn't understand that.  COME ON BRUH!")
@@ -95,8 +97,8 @@ var zoo = {
           connection.query('select * from animals  where type=?', [result.animal_type], function(err, results){
         if (err) {console.log(err)};
         console.log("there are this many of that type of animal:" + results.length)
-        // currentScope.visit()
-        // currentScope.view(currentScope)
+        zoo.menu();
+        zoo.promptUser();
       })
 
     })  
@@ -111,8 +113,8 @@ var zoo = {
       connection.query('SELECT * FROM caretakers LEFT JOIN animals ON caretakers.id = animals.caretaker_id WHERE CITY = ?', [result.city_name], function(err, results){
         if (err) {console.log(err)};
         console.log("this many animals in " + result.city_name +": " + results.length)
-        zoo.visit()
-        zoo.view(currentScope)
+        zoo.menu();
+        zoo.promptUser();
 
       })
     })   
@@ -125,8 +127,8 @@ var zoo = {
       connection.query('SELECT * FROM animals WHERE ID = ?', [result.animal_id], function(err, results){
         if (err) {console.log(err)};
         console.log(results)
-        zoo.visit()
-        zoo.view(currentScope)
+        zoo.menu();
+        zoo.promptUser();
 
       })
     })   
@@ -139,8 +141,8 @@ var zoo = {
       connection.query('SELECT * FROM animals WHERE name = ?', [result.name_id], function(err, results){
         if (err) {console.log(err)};
         console.log(results)   
-           zoo.visit()
-        calzooew(currentScope)
+          zoo.menu();
+        zoo.promptUser();
       })
     }) 
   },
@@ -152,8 +154,8 @@ var zoo = {
       connection.query('SELECT * FROM animals', function(err, results){
         if (err) {console.log(err)};
         console.log("there are this many animals in the zoo: " +results.length) 
-           zoo.visit()
-        calzooew(currentScope)  
+          zoo.menu();
+        zoo.promptUser(); 
       })
     })
   },
@@ -163,8 +165,8 @@ var zoo = {
       connection.query('UPDATE animals SET name = ?, age = ?,  caretaker_id = ? WHERE id = ?', [result.new_name, result.new_age, result.new_caretaker_id, result.id], function(err, results){
         if (err) {console.log("this is error" + err)};
         console.log("you have changed the info!")
-           zoo.visit()
-        calzooew(currentScope)
+          zoo.menu();
+        zoo.promptUser();
       })
     })
   },
@@ -175,28 +177,30 @@ var zoo = {
         connection.query('delete from animals where id = ?', [result.animal_id], function(err, results){
         if (err) {console.log("this is error" + err)};
         console.log("You have adopted this animal!  there is no record of this transaction  No backsies!")
-            zoo.visit()
-        callzoow(currentScope)
+        zoo.menu();
+        zoo.promptUser();
         });
       });
   },
   promptUser: function(input_scope){
     prompt.get(['input'], function (err, result) {
         if (err) throw err;
-        else if (result.input == "q"){
+        else if (result.input == "Q"){
           zoo.exit();
         }
-          else if (result.input == "a"){
+          else if (result.input == "A"){
           zoo.add();
         }
-          else if (result.input == "v"){
+          else if (result.input == "V"){
+          zoo.visit();
           zoo.view();
         }
-          else if (result.input == "d"){
+          else if (result.input == "D"){
           zoo.adopt();
         }
         else{
           console.log("I'm sorry Dave, I'm afraid I can't do that. Please enter another selection");
+          zoo.promptUser();
         }
     });
   },
@@ -205,8 +209,8 @@ var zoo = {
     process.exit();
   },
   open: function(){
-    zoo.welcome;
-    zoo.menu;
+    zoo.welcome();
+    zoo.menu();
     zoo.promptUser();
   }
 
