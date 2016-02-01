@@ -120,16 +120,29 @@ var zoo = {
   animId: function(input_scope){
     this.currentScope = input_scope;
     console.log ("Enter In ID of the Animal you'd like to visit")
-    prompt.get(['name', 'type', 'age', ], function (err, result) { 
+    prompt.get(['animal_id'], function (err, result) { 
       if (err) throw err;
+      connection.query('SELECT * FROM animals WHERE ID = ?', [result.animal_id], function(err, results){
+        if (err) {console.log(err)};
+        console.log(results)
+        // call currentScope.visit()
+        // call currentScope.view(currentScope)
 
-
-
-
+      })
     })   
-
+  },
+   animId: function(input_scope){
+    this.currentScope = input_scope;
+    console.log ("Enter In ID of the Animal you'd like to visit")
+    prompt.get(['animal_id'], function (err, result) { 
+      if (err) throw err;
+      connection.query('SELECT * FROM animals WHERE ID = ?', [result.animal_id], function(err, results){
+        if (err) {console.log(err)};
+        console.log(results)   
+      })
+    }) 
   },
 }
 
-zoo.care()
+zoo.animId()
 
