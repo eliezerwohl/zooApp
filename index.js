@@ -131,12 +131,12 @@ var zoo = {
       })
     })   
   },
-   animId: function(input_scope){
+   name: function(input_scope){
     this.currentScope = input_scope;
-    console.log ("Enter In ID of the Animal you'd like to visit")
-    prompt.get(['animal_id'], function (err, result) { 
+    console.log ("Enter In the Name of the Animal you'd like to visit")
+    prompt.get(['name_id'], function (err, result) { 
       if (err) throw err;
-      connection.query('SELECT * FROM animals WHERE ID = ?', [result.animal_id], function(err, results){
+      connection.query('SELECT * FROM animals WHERE name = ?', [result.name_id], function(err, results){
         if (err) {console.log(err)};
         console.log(results)   
       })
