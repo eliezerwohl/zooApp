@@ -139,6 +139,8 @@ var zoo = {
       connection.query('SELECT * FROM animals WHERE name = ?', [result.name_id], function(err, results){
         if (err) {console.log(err)};
         console.log(results)   
+           // call currentScope.visit()
+        // call currentScope.view(currentScope)
       })
     }) 
   },
@@ -149,12 +151,25 @@ var zoo = {
       if (err) throw err;
       connection.query('SELECT * FROM animals', function(err, results){
         if (err) {console.log(err)};
-        console.log("there are this many animals in the zoo: " +results.length)   
+        console.log("there are this many animals in the zoo: " +results.length) 
+           // call currentScope.visit()
+        // call currentScope.view(currentScope)  
+      })
+    })
+  },
+  update: function (input_scope){
+    prompt.get(['id', 'new_name', 'new_age', 'new_caretaker_id'], function (err, result) {
+      if (err) throw err;
+      connection.query('UPDATE animals SET name = ?, age = ?,  caretaker_id = ? WHERE id = ?', [result.new_name, result.new_age, result.new_caretaker_id, result.id], function(err, results){
+        if (err) {console.log("this is error" + err)};
+        console.log("you have changed the info!")
+           // call currentScope.visit()
+        // call currentScope.view(currentScope)
       })
     })
   },
 
 }
 
-zoo.all()
+zoo.update()
 
