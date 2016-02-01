@@ -19,7 +19,7 @@ var connection = mysql.createConnection({
 prompt.start();
 prompt.message="";
 var zoo = {
-  welcome:console.log("Welcome to the Zoo And Friends App~!"),
+  welcome: console.log("Welcome to the Zoo And Friends App~!"),
   menu:console.log("Enter (A): ------> to Add a new animal to the Zoo!"),
   menu:console.log("Enter (U): ------> to Update info on an animal in the Zoo!"),
   menu:console.log("Enter (V): ------> to Visit the animals in the Zoo!"),
@@ -37,8 +37,8 @@ var zoo = {
         if (err) {console.log(err)};
    
         console.log("Sucess written!")
-        // currentScope.visit()
-        // currentScope.view(currentScope)
+        zoo.visit()
+        zoo.view()
       })
     })
   },
@@ -111,8 +111,8 @@ var zoo = {
       connection.query('SELECT * FROM caretakers LEFT JOIN animals ON caretakers.id = animals.caretaker_id WHERE CITY = ?', [result.city_name], function(err, results){
         if (err) {console.log(err)};
         console.log("this many animals in " + result.city_name +": " + results.length)
-        // call currentScope.visit()
-        // call currentScope.view(currentScope)
+        zoo.visit()
+        zoo.view(currentScope)
 
       })
     })   
@@ -125,8 +125,8 @@ var zoo = {
       connection.query('SELECT * FROM animals WHERE ID = ?', [result.animal_id], function(err, results){
         if (err) {console.log(err)};
         console.log(results)
-        // call currentScope.visit()
-        // call currentScope.view(currentScope)
+        zoo.visit()
+        zoo.view(currentScope)
 
       })
     })   
@@ -139,8 +139,8 @@ var zoo = {
       connection.query('SELECT * FROM animals WHERE name = ?', [result.name_id], function(err, results){
         if (err) {console.log(err)};
         console.log(results)   
-           // call currentScope.visit()
-        // call currentScope.view(currentScope)
+           zoo.visit()
+        calzooew(currentScope)
       })
     }) 
   },
@@ -152,8 +152,8 @@ var zoo = {
       connection.query('SELECT * FROM animals', function(err, results){
         if (err) {console.log(err)};
         console.log("there are this many animals in the zoo: " +results.length) 
-           // call currentScope.visit()
-        // call currentScope.view(currentScope)  
+           zoo.visit()
+        calzooew(currentScope)  
       })
     })
   },
@@ -163,8 +163,8 @@ var zoo = {
       connection.query('UPDATE animals SET name = ?, age = ?,  caretaker_id = ? WHERE id = ?', [result.new_name, result.new_age, result.new_caretaker_id, result.id], function(err, results){
         if (err) {console.log("this is error" + err)};
         console.log("you have changed the info!")
-           // call currentScope.visit()
-        // call currentScope.view(currentScope)
+           zoo.visit()
+        calzooew(currentScope)
       })
     })
   },
@@ -175,8 +175,8 @@ var zoo = {
         connection.query('delete from animals where id = ?', [result.animal_id], function(err, results){
         if (err) {console.log("this is error" + err)};
         console.log("You have adopted this animal!  there is no record of this transaction  No backsies!")
-            // call currentScope.visit()
-        // call currentScope.view(currentScope)
+            zoo.visit()
+        callzoow(currentScope)
         });
       });
   },
@@ -200,9 +200,17 @@ var zoo = {
         }
     });
   },
-  
+  exit: function(){
+    console.log("thanks for visiting.  goodbye.  no refunds!");
+    process.exit();
+  },
+  open: function(){
+    zoo.welcome;
+    zoo.menu;
+    zoo.promptUser();
+  }
 
 }
 
-zoo.promptUser()
+zoo.open()
 
