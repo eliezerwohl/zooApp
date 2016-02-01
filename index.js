@@ -102,6 +102,21 @@ var zoo = {
     })  
 
   },
+  care: function(input_scope){
+    this.currentScope = input_scope;
+    console.log ("enter city name.  NY/SF");
+    prompt.get(['city_name'], function (err, result) { 
+    console.log(result.city_name);
+      if (err) {console.log(err)};
+      connection.query('SELECT * FROM caretakers LEFT JOIN animals ON caretakers.id = animals.caretaker_id WHERE CITY = ?', [result.city_name], function(err, results){
+        if (err) {console.log(err)};
+        console.log("this many animals in " + result.city_name +": " + results.length)
+        // call currentScope.visit()
+        // call currentScope.view(currentScope)
+
+      })
+    })   
+  },
   animId: function(input_scope){
     this.currentScope = input_scope;
     console.log ("Enter In ID of the Animal you'd like to visit")
@@ -116,5 +131,5 @@ var zoo = {
   },
 }
 
-zoo.type()
+zoo.care()
 
